@@ -14,7 +14,15 @@ class Magic:
         Returns:
             int: El n-ésimo número de Fibonacci
         """
-        pass
+        if n == 0:
+            return 0
+        elif n == 1:
+            return 1
+        else:
+            a, b = 0, 1
+            for _ in range(2, n + 1):
+                a, b = b, a + b
+            return b
     
     def secuencia_fibonacci(self, n):
         """
@@ -26,7 +34,10 @@ class Magic:
         Returns:
             list: Lista con los primeros n números de Fibonacci
         """
-        pass
+        fib_sequence = []
+        for i in range(n):
+            fib_sequence.append(self.fibonacci(i))
+        return fib_sequence
     
     def es_primo(self, n):
         """
@@ -38,7 +49,12 @@ class Magic:
         Returns:
             bool: True si n es primo, False en caso contrario
         """
-        pass
+        if n <= 1:
+            return False
+        for i in range(2, int(n**0.5) + 1):
+            if n % i == 0:
+                return False
+        return True
     
     def generar_primos(self, n):
         """
@@ -50,7 +66,7 @@ class Magic:
         Returns:
             list: Lista de números primos hasta n
         """
-        pass
+        return [i for i in range(2, n + 1) if self.es_primo(i)]
     
     def es_numero_perfecto(self, n):
         """
@@ -62,7 +78,10 @@ class Magic:
         Returns:
             bool: True si n es un número perfecto, False en caso contrario
         """
-        pass
+        if n < 2:
+            return False
+        suma_divisores = sum(i for i in range(1, n) if n % i == 0)
+        return suma_divisores == n
     
     def triangulo_pascal(self, filas):
         """
@@ -74,7 +93,13 @@ class Magic:
         Returns:
             list: Lista de listas que representa el triángulo de Pascal
         """
-        pass
+        tri_pascal = []  
+        for i in range(filas):
+         fila = [1] * (i + 1)  
+        for j in range(1, i):
+            fila[j] = tri_pascal[i - 1][j - 1] + tri_pascal[i - 1][j]  
+        tri_pascal.append(fila)  
+        return tri_pascal
     
     def factorial(self, n):
         """
@@ -86,7 +111,14 @@ class Magic:
         Returns:
             int: El factorial de n
         """
-        pass
+        if n < 0:
+            raise ValueError("El factorial no está definido para números negativos.")
+        if n == 0 or n == 1:
+            return 1
+        resultado = 1
+        for i in range(2, n + 1):
+            resultado *= i
+        return resultado
     
     def mcd(self, a, b):
         """
@@ -99,7 +131,10 @@ class Magic:
         Returns:
             int: El máximo común divisor de a y b
         """
-        pass
+        while b:
+            a, b = b, a % b
+        return a
+
     
     def mcm(self, a, b):
         """
@@ -112,7 +147,7 @@ class Magic:
         Returns:
             int: El mínimo común múltiplo de a y b
         """
-        pass
+        return abs(a * b) // self.mcd(a, b) if a and b else 0
     
     def suma_digitos(self, n):
         """
@@ -124,7 +159,7 @@ class Magic:
         Returns:
             int: La suma de los dígitos de n
         """
-        pass
+        return sum(int(d) for d in str(abs(n)))
     
     def es_numero_armstrong(self, n):
         """
@@ -136,7 +171,10 @@ class Magic:
         Returns:
             bool: True si n es un número de Armstrong, False en caso contrario
         """
-        pass
+        num_str = str(abs(n))
+        potencia = len(num_str)
+        suma = sum(int(d) ** potencia for d in num_str)
+        return suma == n
     
     def es_cuadrado_magico(self, matriz):
         """
@@ -148,4 +186,19 @@ class Magic:
         Returns:
             bool: True si es un cuadrado mágico, False en caso contrario
         """
-        pass
+        n = len(matriz)
+        suma_diagonal = sum(matriz[i][i] for i in range(n))
+        suma_diagonal_inversa = sum(matriz[i][n - 1 - i] for i in range(n))
+        
+        if suma_diagonal != suma_diagonal_inversa:
+            return False
+        
+        for fila in matriz:
+            if sum(fila) != suma_diagonal:
+                return False
+        
+        for col in range(n):
+            if sum(matriz[i][col] for i in range(n)) != suma_diagonal:
+                return False
+        
+        return True
