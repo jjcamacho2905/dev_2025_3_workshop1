@@ -1,3 +1,5 @@
+
+
 class Stats:
     def promedio(self, numeros):
         """
@@ -12,7 +14,7 @@ class Stats:
         Ejemplo:
             promedio([1, 2, 3, 4, 5]) -> 3.0
         """
-        pass
+        return sum(numeros) / len(numeros) if numeros else 0.0
     
     def mediana(self, numeros):
         """
@@ -29,7 +31,13 @@ class Stats:
             mediana([1, 2, 3, 4, 5]) -> 3.0
             mediana([1, 2, 3, 4]) -> 2.5
         """
-        pass
+        numeros = sorted(numeros)
+        n = len(numeros)
+        mid = n // 2
+        if n % 2 == 0:
+            return (numeros[mid - 1] + numeros[mid]) / 2
+        else:
+            return numeros[mid]
     
     def moda(self, numeros):
         """
@@ -45,7 +53,12 @@ class Stats:
         Ejemplo:
             moda([1, 2, 2, 3, 3, 3]) -> 3
         """
-        pass
+        from collections import Counter
+        conteo = Counter(numeros)
+        max_frecuencia = max(conteo.values())
+        for num in conteo:
+            if conteo[num] == max_frecuencia:
+                return num
     
     def desviacion_estandar(self, numeros):
         """
@@ -61,7 +74,12 @@ class Stats:
         Ejemplo:
             desviacion_estandar([1, 2, 3, 4, 5]) -> 1.41...
         """
-        pass
+        n = len(numeros)
+        if n == 0:
+            return 0.0
+        media = self.promedio(numeros)
+        varianza = sum((x - media) ** 2 for x in numeros) / n
+        return varianza ** 0.5
     
     def varianza(self, numeros):
         """
@@ -77,7 +95,11 @@ class Stats:
         Ejemplo:
             varianza([1, 2, 3, 4, 5]) -> 2.0
         """
-        pass
+        n = len(numeros)
+        if n == 0:
+            return 0.0
+        media = self.promedio(numeros)
+        return sum((x - media) ** 2 for x in numeros) / n
     
     def rango(self, numeros):
         """
@@ -92,4 +114,4 @@ class Stats:
         Ejemplo:
             rango([1, 5, 3, 9, 2]) -> 8
         """
-        pass
+        return max(numeros) - min(numeros) if numeros else 0
