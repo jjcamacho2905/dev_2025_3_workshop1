@@ -62,21 +62,34 @@ class Games:
         Returns:
             str: "X", "O", "empate" o "continua"
         """
+        vacios = {"", " "}
+
+    # Revisar filas y columnas
         for i in range(3):
-            if tablero[i][0] == tablero[i][1] == tablero[i][2] != " ":
-                return tablero[i][0]
-            if tablero[0][i] == tablero[1][i] == tablero[2][i] != " ":
-                return tablero[0][i]
-        
-        if tablero[0][0] == tablero[1][1] == tablero[2][2] != " ":
-            return tablero[0][0]
-        if tablero[0][2] == tablero[1][1] == tablero[2][0] != " ":
-            return tablero[0][2]
-        
+            fila = tablero[i]
+            if all(celda == fila[0] and fila[0] not in vacios for celda in fila):
+               return fila[0]
+
+            columna = [tablero[0][i], tablero[1][i], tablero[2][i]]
+            if all(celda == columna[0] and columna[0] not in vacios for celda in columna):
+               return columna[0]
+
+    # Revisar diagonales
+        diagonal1 = [tablero[0][0], tablero[1][1], tablero[2][2]]
+        diagonal2 = [tablero[0][2], tablero[1][1], tablero[2][0]]
+
+        if all(celda == diagonal1[0] and diagonal1[0] not in vacios for celda in diagonal1):
+           return diagonal1[0]
+        if all(celda == diagonal2[0] and diagonal2[0] not in vacios for celda in diagonal2):
+           return diagonal2[0]
+
+    # Si hay espacios vacíos, la partida continúa
         for fila in tablero:
-            if " " in fila:
-                return "continua"
-        
+            for celda in fila:
+                if celda in vacios:
+                   return "continua"
+
+    # Si no hay ganador ni espacios vacíos, es empate
         return "empate"
     
     def generar_combinacion_mastermind(self, longitud, colores_disponibles):

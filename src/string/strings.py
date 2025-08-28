@@ -108,8 +108,8 @@ class Strings:
             if mayus and c.isalpha():
                 resultado += c.upper()
                 mayus = False
-        else:
-            resultado += c
+            else:
+                resultado += c
             if c == " ":
                 mayus = True
         return resultado
@@ -125,17 +125,8 @@ class Strings:
         Returns:
             str: Cadena sin espacios duplicados
         """
-        nuevo = []
-        prev_space = False
-        for c in texto:
-            if c != " ":
-             nuevo.append(c)
-             prev_space = False
-        else:
-            if not prev_space:
-                nuevo.append(" ")
-            prev_space = True
-        return "".join(nuevo)
+        palabras = texto.split()
+        return " ".join(palabras)
     
     def es_numero_entero(self, texto):
         """
@@ -195,9 +186,11 @@ class Strings:
         Returns:
             list: Lista con las posiciones iniciales de cada ocurrencia
         """
+        if not subcadena:  # si la subcadena está vacía, devolver []
+           return []
         posiciones = []
-        n, m = len(texto), len(subcadena)
-        for i in range(n - m + 1):
-            if texto[i:i+m] == subcadena:
-                posiciones.append(i)
+        i = texto.find(subcadena)
+        while i != -1:
+            posiciones.append(i)
+            i = texto.find(subcadena, i + 1)
         return posiciones

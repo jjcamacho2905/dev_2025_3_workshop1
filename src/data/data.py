@@ -48,9 +48,12 @@ class Data:
             list: Lista sin elementos duplicados
         """
         resultado = []
+        vistos = set()
         for elemento in lista:
-            if elemento not in resultado:
-                resultado.append(elemento)
+            clave = (elemento, type(elemento))  # valor + tipo
+            if clave not in vistos:
+               vistos.add(clave)
+               resultado.append(elemento)
         return resultado
     
     def merge_ordenado(self, lista1, lista2):
@@ -92,7 +95,10 @@ class Data:
             list: Lista rotada
         """
         n = len(lista)
-        k = k % n 
+        if n == 0:   # lista vacía, no se puede rotar
+           return []
+    
+        k = k % n   # asegura que no sea mayor que la longitud
         return lista[-k:] + lista[:-k]
     
     def encuentra_numero_faltante(self, lista):

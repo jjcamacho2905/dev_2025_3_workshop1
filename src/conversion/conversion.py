@@ -223,22 +223,26 @@ class Conversion:
             morse_a_texto(".... . .-.. .-.. ---") -> "HELLO"
         """
         morse_dict = {
-            ".-": "A", "-...": "B", "-.-.": "C", "-..": "D", ".": "E",
-            "..-.": "F", "--.": "G", "....": "H", "..": "I", ".---": "J",
-            "-.-": "K", ".-..": "L", "--": "M", "-.": "N", "---": "O",
-            ".--.": "P", "--.-": "Q", ".-.": "R", "...": "S", "-": "T",
-            "..-": "U", "...-": "V", ".--": "W", "-..-": "X", "-.--": "Y",
-            "--..": "Z",
-            "-----": "0", ".----": "1", "..---": "2", "...--": "3", "....-": "4",
-            ".....": "5", "-....": "6", "--...": "7", "---..": "8", "----.": "9",
-            "/": " "
+        ".-": "A", "-...": "B", "-.-.": "C", "-..": "D", ".": "E",
+        "..-.": "F", "--.": "G", "....": "H", "..": "I", ".---": "J",
+        "-.-": "K", ".-..": "L", "--": "M", "-.": "N", "---": "O",
+        ".--.": "P", "--.-": "Q", ".-.": "R", "...": "S", "-": "T",
+        "..-": "U", "...-": "V", ".--": "W", "-..-": "X", "-.--": "Y",
+        "--..": "Z",
+        "-----": "0", ".----": "1", "..---": "2", "...--": "3", "....-": "4",
+        ".....": "5", "-....": "6", "--...": "7", "---..": "8", "----.": "9"
         }
-        resultado = []
-        for codigo in morse.split(" "):
-            if codigo in morse_dict:
-                resultado.append(morse_dict[codigo])
-            else:
-                raise ValueError(f"Código Morse no soportado: {codigo}")
-        return ''.join(resultado)
 
-        
+        palabras = morse.split(" / ")   # divide por palabras
+        resultado = []
+
+        for palabra in palabras:
+            letras = []
+            for codigo in palabra.split():  # divide por espacios
+               if codigo in morse_dict:
+                   letras.append(morse_dict[codigo])
+               else:
+                   raise ValueError(f"Código Morse no soportado: {codigo}")
+        resultado.append("".join(letras))
+
+        return " ".join(resultado)
