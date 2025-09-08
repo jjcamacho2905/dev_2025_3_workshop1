@@ -134,3 +134,10 @@ class TestStrings:
         assert self.strings.encontrar_subcadena("hola", "") == []
         # Test con texto y subcadena iguales
         assert self.strings.encontrar_subcadena("test", "test") == [0]
+
+    def test_cifrar_cesar_preserva_no_alfabeticos(self):
+        # Caracteres no alfabéticos deben permanecer iguales
+        assert self.strings.cifrar_cesar("a b!z-1", 3) == "d e!c-1"
+        # Comprobación inversa con descifrado
+        cifrado = self.strings.cifrar_cesar("Hola, mundo! 123", 5)
+        assert self.strings.descifrar_cesar(cifrado, 5) == "Hola, mundo! 123"
