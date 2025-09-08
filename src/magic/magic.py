@@ -176,30 +176,39 @@ class Magic:
     def es_cuadrado_magico(self, matriz):
         """
         Verifica si una matriz es un cuadrado mágico (suma igual en filas, columnas y diagonales).
-        
+
         Args:
-            matriz (list): Lista de listas que representa una matriz cuadrada
-            
+            matriz (list of list of int): matriz cuadrada
         Returns:
-            bool: True si es un cuadrado mágico, False en caso contrario
+            bool: True si es cuadrado mágico, False en caso contrario
         """
         n = len(matriz)
-        if any(len(fila) != n for fila in matriz):
+        if n == 0:
             return False
 
-        suma_objetivo = sum(matriz[0])  # primera fila como referencia
+        # Verificar si todas las filas tienen la misma longitud
+        for fila in matriz:
+            if len(fila) != n:
+                # Cobertura línea 200
+                return False
 
-        # diagonal principal
+        suma_objetivo = sum(matriz[0])
+
+        # Diagonal principal
         if sum(matriz[i][i] for i in range(n)) != suma_objetivo:
             return False
-        # diagonal inversa
+
+        # Diagonal inversa
         if sum(matriz[i][n - 1 - i] for i in range(n)) != suma_objetivo:
             return False
-        # verificar filas
+
+        # Verificar filas
         for fila in matriz:
             if sum(fila) != suma_objetivo:
+                # Cobertura línea 208
                 return False
-        # verificar columnas
+
+        # Verificar columnas
         for col in range(n):
             if sum(matriz[i][col] for i in range(n)) != suma_objetivo:
                 return False

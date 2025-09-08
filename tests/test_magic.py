@@ -103,59 +103,99 @@ class TestMagic:
         assert self.magic.es_numero_armstrong(100) == False
     
     def test_es_cuadrado_magico_completo(self):
-  
+        # 1. Matriz no cuadrada
         no_cuadrada = [
-           [1, 2, 3],
-           [4, 5]  # fila más corta
+            [1, 2, 3],
+            [4, 5]  # fila más corta
         ]
         assert self.magic.es_cuadrado_magico(no_cuadrada) is False
-    # 2. Fila con suma distinta
+
+        # 2. Fila con suma distinta
         fila_distinta = [
-           [2, 7, 6],
-           [9, 5, 1],
-           [4, 3, 9]  # suma diferente en la última fila
+            [2, 7, 6],
+            [9, 5, 1],
+            [4, 3, 9]  # suma diferente en la última fila
         ]
         assert self.magic.es_cuadrado_magico(fila_distinta) is False
-    # 3. Columna con suma distinta
+
+        # 3. Columna con suma distinta
         columna_distinta = [
-           [2, 7, 6],
-           [9, 5, 1],
-           [4, 4, 8]  # columna 2: suma = 16
+            [2, 7, 6],
+            [9, 5, 1],
+            [4, 4, 8]  # columna 2 suma distinta
         ]
         assert self.magic.es_cuadrado_magico(columna_distinta) is False
-        
+
+        # 4. Diagonal principal distinta
         diagonal_distinta = [
-           [2, 7, 6],
-           [9, 1, 5],
-           [4, 3, 8]
+            [2, 7, 6],
+            [9, 1, 5],
+            [4, 3, 8]  # diagonal suma distinta
         ]
         assert self.magic.es_cuadrado_magico(diagonal_distinta) is False
-    # 5. Diagonal inversa distinta
+
+        # 5. Diagonal inversa distinta
         diagonal_inversa_distinta = [
-           [2, 7, 6],
-           [9, 5, 1],
-           [8, 3, 4]
+            [2, 7, 6],
+            [9, 5, 1],
+            [8, 3, 4]
         ]
         assert self.magic.es_cuadrado_magico(diagonal_inversa_distinta) is False
-    # 6. Cuadrado mágico válido
+
+        # 6. Cuadrado mágico válido
         cuadrado_magico = [
-           [2, 7, 6],
-           [9, 5, 1],
-           [4, 3, 8]
+            [2, 7, 6],
+            [9, 5, 1],
+            [4, 3, 8]
         ]
         assert self.magic.es_cuadrado_magico(cuadrado_magico) is True
-    
-    def test_cobertura_lineas_197_205(self):
-        # Línea 197: matriz no cuadrada
+
+    def test_cobertura_lineas_200_208(self):
+        # Línea 200: matriz no cuadrada
         matriz_no_cuadrada = [
             [1, 2, 3],
             [4, 5]  # fila más corta
         ]
         assert self.magic.es_cuadrado_magico(matriz_no_cuadrada) is False
-        # Línea 205: fila con suma distinta
+
+        # Línea 208: fila con suma distinta
         matriz_fila_distinta = [
             [2, 7, 6],
             [9, 5, 1],
-            [4, 3, 10]  # suma diferente en la última fila
+            [4, 3, 10]  # suma diferente (15 != 17)
         ]
         assert self.magic.es_cuadrado_magico(matriz_fila_distinta) is False
+
+    def test_es_cuadrado_magico_vacio(self):
+        # Cobertura del caso n == 0 (matriz vacía)
+        assert self.magic.es_cuadrado_magico([]) is False
+
+    def test_es_cuadrado_magico_fila_falla_despues_de_diagonales(self):
+        # Diagonales correctas (suman 15), pero una fila no suma 15
+        matriz = [
+            [8, 1, 6],   # suma 15 => suma_objetivo
+            [9, 5, 7],   # suma 21 => falla en verificación de filas
+            [4, 10, 2],  # suma 16
+        ]
+        assert self.magic.es_cuadrado_magico(matriz) is False
+
+    def test_es_cuadrado_magico_columna_falla_despues_de_filas_y_diagonales(self):
+        # Diagonales correctas y todas las filas suman 15, pero columnas no
+        matriz = [
+            [8, 1, 6],
+            [2, 5, 8],
+            [4, 9, 2],
+        ]
+        # Columnas: col0=14, col1=15, col2=16 => debe fallar en verificación de columnas
+        assert self.magic.es_cuadrado_magico(matriz) is False
+
+    def test_es_cuadrado_magico_diagonal_inversa_falla_tras_principal_ok(self):
+        # La diagonal principal suma correctamente (15), pero la diagonal inversa no
+        # Ajustamos la primera fila para mantener suma_objetivo=15 y romper la diagonal inversa
+        matriz = [
+            [2, 6, 7],  # 2+6+7=15 (suma_objetivo); principal 2+5+8=15; inversa 7+5+4=16
+            [9, 5, 1],
+            [4, 3, 8],
+        ]
+        # Principal: 2+5+8=15 (ok). Inversa: 7+5+4=16 (falla)
+        assert self.magic.es_cuadrado_magico(matriz) is False
