@@ -1,3 +1,4 @@
+import re
 class Strings:
     """
     Clase con métodos para manipulación y operaciones con cadenas de texto.
@@ -125,8 +126,7 @@ class Strings:
         Returns:
             str: Cadena sin espacios duplicados
         """
-        palabras = texto.split()
-        return " ".join(palabras)
+        return re.sub(r' {2,}', ' ', texto)
     
     def es_numero_entero(self, texto):
         """

@@ -31,13 +31,17 @@ class Stats:
             mediana([1, 2, 3, 4, 5]) -> 3.0
             mediana([1, 2, 3, 4]) -> 2.5
         """
+        if not numeros:  # lista vacía
+           return 0.0
+
         numeros = sorted(numeros)
         n = len(numeros)
         mid = n // 2
-        if n % 2 == 0:
-            return (numeros[mid - 1] + numeros[mid]) / 2
-        else:
-            return numeros[mid]
+
+        if n % 2 == 0:  # número par de elementos
+           return float((numeros[mid - 1] + numeros[mid]) / 2)
+        else:  # número impar
+           return float(numeros[mid])
     
     def moda(self, numeros):
         """
@@ -53,6 +57,9 @@ class Stats:
         Ejemplo:
             moda([1, 2, 2, 3, 3, 3]) -> 3
         """
+        if not numeros:  # manejar lista vacía
+            return None  # o raise ValueError("Lista vacía, no se puede calcular la moda")
+
         from collections import Counter
         conteo = Counter(numeros)
         max_frecuencia = max(conteo.values())

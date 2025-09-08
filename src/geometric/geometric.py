@@ -292,8 +292,6 @@ class Geometria:
         Returns:
             float: Pendiente de la recta
         """
-        if x2 - x1 == 0:
-            raise ValueError("La pendiente es indefinida (división por cero).")
         return (y2 - y1) / (x2 - x1)
     
     def ecuacion_recta(self, x1, y1, x2, y2):
@@ -311,9 +309,19 @@ class Geometria:
         """
         A = y2 - y1
         B = x1 - x2
-        C = (x2 * y1) - (x1 * y2)
+        C = x2 * y1 - x1 * y2
+
+        # Caso especial: línea horizontal (A = 0)
+        if A == 0:
+           return (0, 1, -y1)
+
+        # Caso especial: línea vertical (B = 0)
+        if B == 0:
+           return (1, 0, -x1)
+
         return (A, B, C)
-    
+        
+     
     def area_poligono_regular(self, num_lados, lado, apotema):
         """
         Calcula el área de un polígono regular.
@@ -326,7 +334,8 @@ class Geometria:
         Returns:
             float: Área del polígono regular
         """
-        return (num_lados * lado * apotema) / 2
+        perimetro = num_lados * lado
+        return (perimetro * apotema) / 2
     
     def perimetro_poligono_regular(self, num_lados, lado):
         """

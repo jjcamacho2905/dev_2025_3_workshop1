@@ -95,10 +95,10 @@ class Magic:
         """
         tri_pascal = []  
         for i in range(filas):
-         fila = [1] * (i + 1)  
-        for j in range(1, i):
-            fila[j] = tri_pascal[i - 1][j - 1] + tri_pascal[i - 1][j]  
-        tri_pascal.append(fila)  
+           fila = [1] * (i + 1)  # siempre empieza y termina en 1
+           for j in range(1, i):  # los valores intermedios
+                fila[j] = tri_pascal[i - 1][j - 1] + tri_pascal[i - 1][j]  
+           tri_pascal.append(fila)  
         return tri_pascal
     
     def factorial(self, n):

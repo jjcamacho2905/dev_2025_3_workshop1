@@ -62,35 +62,32 @@ class Games:
         Returns:
             str: "X", "O", "empate" o "continua"
         """
-        vacios = {"", " "}
+        
+        vacios = {"", " ", "_"}
 
-    # Revisar filas y columnas
+        # Revisar filas y columnas
         for i in range(3):
             fila = tablero[i]
-            if all(celda == fila[0] and fila[0] not in vacios for celda in fila):
-               return fila[0]
+            if fila[0] not in vacios and all(celda == fila[0] for celda in fila):
+                return fila[0]
 
             columna = [tablero[0][i], tablero[1][i], tablero[2][i]]
-            if all(celda == columna[0] and columna[0] not in vacios for celda in columna):
-               return columna[0]
+            if columna[0] not in vacios and all(celda == columna[0] for celda in columna):
+                return columna[0]
 
-    # Revisar diagonales
-        diagonal1 = [tablero[0][0], tablero[1][1], tablero[2][2]]
-        diagonal2 = [tablero[0][2], tablero[1][1], tablero[2][0]]
+        # Revisar diagonales
+        if tablero[0][0] not in vacios and tablero[0][0] == tablero[1][1] == tablero[2][2]:
+            return tablero[0][0]
+        if tablero[0][2] not in vacios and tablero[0][2] == tablero[1][1] == tablero[2][0]:
+            return tablero[0][2]
 
-        if all(celda == diagonal1[0] and diagonal1[0] not in vacios for celda in diagonal1):
-           return diagonal1[0]
-        if all(celda == diagonal2[0] and diagonal2[0] not in vacios for celda in diagonal2):
-           return diagonal2[0]
+        # Revisar si todavía hay espacios libres
+        if any(celda in vacios for fila in tablero for celda in fila):
+            return "continua"
 
-    # Si hay espacios vacíos, la partida continúa
-        for fila in tablero:
-            for celda in fila:
-                if celda in vacios:
-                   return "continua"
-
-    # Si no hay ganador ni espacios vacíos, es empate
+        # Si no hay espacios y nadie ganó → empate
         return "empate"
+
     
     def generar_combinacion_mastermind(self, longitud, colores_disponibles):
         """
