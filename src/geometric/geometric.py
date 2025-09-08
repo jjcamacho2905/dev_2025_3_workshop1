@@ -311,16 +311,14 @@ class Geometria:
         B = x1 - x2
         C = x2 * y1 - x1 * y2
 
-        # Caso especial: línea horizontal (A = 0)
+         # Línea horizontal
         if A == 0:
            return (0, 1, -y1)
-
-        # Caso especial: línea vertical (B = 0)
+       # Línea vertical
         if B == 0:
-           return (1, 0, -x1)
+          return (1, 0, -x1)
 
         return (A, B, C)
-        
      
     def area_poligono_regular(self, num_lados, lado, apotema):
         """

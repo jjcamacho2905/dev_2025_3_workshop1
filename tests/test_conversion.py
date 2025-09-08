@@ -1,9 +1,14 @@
 import pytest
 from src.conversion.conversion import Conversion
 
+
+
+
 class TestConversion:
     def setup_method(self):
         self.conversion = Conversion()
+        
+    
     
     def test_celsius_a_fahrenheit(self):
         # Test con punto de congelación del agua
@@ -156,3 +161,27 @@ class TestConversion:
         assert self.conversion.morse_a_texto("") == ""
         # Test con espacios extra (deben ser ignorados)
         assert self.conversion.morse_a_texto("...  ---  ...") == "SOS"
+        
+    def test_decimal_a_romano_fuera_de_rango(self):
+        # Número demasiado bajo
+        with pytest.raises(ValueError, match="El número debe estar entre 1 y 3999"):
+            self.conversion.decimal_a_romano(0)
+
+        # Número demasiado alto
+        with pytest.raises(ValueError, match="El número debe estar entre 1 y 3999"):
+            self.conversion.decimal_a_romano(5000)
+    
+    def test_morse_a_texto_invalido(self):
+        # El código '........' no existe en el diccionario de Morse
+        with pytest.raises(ValueError) as excinfo:
+           self.conversion.morse_a_texto("........")
+        assert "Código Morse no soportado" in str(excinfo.value)
+        
+    def test_texto_a_morse_invalido(self):
+        # Le pasamos un caracter que no existe en el diccionario de Morse
+        with pytest.raises(ValueError) as excinfo:
+             self.conversion.texto_a_morse("@")  # o cualquier caracter que no tengas en morse_dict
+        assert "Carácter no soportado en Morse" in str(excinfo.value)
+
+    
+

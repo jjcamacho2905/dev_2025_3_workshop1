@@ -208,3 +208,12 @@ class TestGeometria:
         assert self.geometria.perimetro_poligono_regular(4, 5) == 20
         # Test con octágono
         assert self.geometria.perimetro_poligono_regular(8, 2.5) == 20
+        
+    def test_obtener_ecuacion_recta_vertical(self):
+    # Verifica que una recta vertical x = 5 devuelva los coeficientes correctos
+        resultado = self.geometria.ecuacion_recta(5, 1, 5, 10)
+        assert resultado == (1, 0, -5)
+
+        
+
+

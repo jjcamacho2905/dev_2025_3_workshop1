@@ -114,3 +114,31 @@ class TestData:
         assert self.data.matriz_transpuesta([[5]]) == [[5]]
         # Test con matriz vacía
         assert self.data.matriz_transpuesta([]) == []
+    
+    def test_pop_en_pila_vacia_lanza_indexerror(self):
+        pila = self.data.implementar_pila()
+        # sin push → está vacía
+        import pytest
+        with pytest.raises(IndexError) as excinfo:
+            pila["pop"]()
+        assert "vacía" in str(excinfo.value)
+
+    def test_peek_en_pila_vacia_lanza_indexerror(self):
+        pila = self.data.implementar_pila()
+        import pytest
+        with pytest.raises(IndexError):
+            pila["peek"]()
+            
+    def test_dequeue_en_cola_vacia_lanza_indexerror(self):
+        cola = self.data.implementar_cola()
+        import pytest
+        with pytest.raises(IndexError) as excinfo:
+            cola["dequeue"]()
+        assert "vacía" in str(excinfo.value)
+
+    def test_peek_en_cola_vacia_lanza_indexerror(self):
+        cola = self.data.implementar_cola()
+        import pytest
+        with pytest.raises(IndexError):
+            cola["peek"]()
+

@@ -111,15 +111,12 @@ class Magic:
         Returns:
             int: El factorial de n
         """
-        if n < 0:
-            raise ValueError("El factorial no está definido para números negativos.")
         if n == 0 or n == 1:
-            return 1
+          return 1
         resultado = 1
         for i in range(2, n + 1):
             resultado *= i
         return resultado
-    
     def mcd(self, a, b):
         """
         Calcula el máximo común divisor de dos números.
@@ -187,18 +184,24 @@ class Magic:
             bool: True si es un cuadrado mágico, False en caso contrario
         """
         n = len(matriz)
-        suma_diagonal = sum(matriz[i][i] for i in range(n))
-        suma_diagonal_inversa = sum(matriz[i][n - 1 - i] for i in range(n))
-        
-        if suma_diagonal != suma_diagonal_inversa:
+        if any(len(fila) != n for fila in matriz):
             return False
-        
+
+        suma_objetivo = sum(matriz[0])  # primera fila como referencia
+
+        # diagonal principal
+        if sum(matriz[i][i] for i in range(n)) != suma_objetivo:
+            return False
+        # diagonal inversa
+        if sum(matriz[i][n - 1 - i] for i in range(n)) != suma_objetivo:
+            return False
+        # verificar filas
         for fila in matriz:
-            if sum(fila) != suma_diagonal:
+            if sum(fila) != suma_objetivo:
                 return False
-        
+        # verificar columnas
         for col in range(n):
-            if sum(matriz[i][col] for i in range(n)) != suma_diagonal:
+            if sum(matriz[i][col] for i in range(n)) != suma_objetivo:
                 return False
-        
+
         return True

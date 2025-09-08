@@ -102,22 +102,60 @@ class TestMagic:
         assert self.magic.es_numero_armstrong(123) == False
         assert self.magic.es_numero_armstrong(100) == False
     
-    def test_es_cuadrado_magico(self):
-        # Test para cuadrado mágico 3x3
+    def test_es_cuadrado_magico_completo(self):
+  
+        no_cuadrada = [
+           [1, 2, 3],
+           [4, 5]  # fila más corta
+        ]
+        assert self.magic.es_cuadrado_magico(no_cuadrada) is False
+    # 2. Fila con suma distinta
+        fila_distinta = [
+           [2, 7, 6],
+           [9, 5, 1],
+           [4, 3, 9]  # suma diferente en la última fila
+        ]
+        assert self.magic.es_cuadrado_magico(fila_distinta) is False
+    # 3. Columna con suma distinta
+        columna_distinta = [
+           [2, 7, 6],
+           [9, 5, 1],
+           [4, 4, 8]  # columna 2: suma = 16
+        ]
+        assert self.magic.es_cuadrado_magico(columna_distinta) is False
+        
+        diagonal_distinta = [
+           [2, 7, 6],
+           [9, 1, 5],
+           [4, 3, 8]
+        ]
+        assert self.magic.es_cuadrado_magico(diagonal_distinta) is False
+    # 5. Diagonal inversa distinta
+        diagonal_inversa_distinta = [
+           [2, 7, 6],
+           [9, 5, 1],
+           [8, 3, 4]
+        ]
+        assert self.magic.es_cuadrado_magico(diagonal_inversa_distinta) is False
+    # 6. Cuadrado mágico válido
         cuadrado_magico = [
+           [2, 7, 6],
+           [9, 5, 1],
+           [4, 3, 8]
+        ]
+        assert self.magic.es_cuadrado_magico(cuadrado_magico) is True
+    
+    def test_cobertura_lineas_197_205(self):
+        # Línea 197: matriz no cuadrada
+        matriz_no_cuadrada = [
+            [1, 2, 3],
+            [4, 5]  # fila más corta
+        ]
+        assert self.magic.es_cuadrado_magico(matriz_no_cuadrada) is False
+        # Línea 205: fila con suma distinta
+        matriz_fila_distinta = [
             [2, 7, 6],
             [9, 5, 1],
-            [4, 3, 8]
+            [4, 3, 10]  # suma diferente en la última fila
         ]
-        assert self.magic.es_cuadrado_magico(cuadrado_magico) == True
-        
-        # Test para matriz que no es cuadrado mágico
-        no_magico = [
-            [1, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9]
-        ]
-        assert self.magic.es_cuadrado_magico(no_magico) == False
-        
-        # Test para cuadrado mágico 1x1
-        assert self.magic.es_cuadrado_magico([[5]]) == True
+        assert self.magic.es_cuadrado_magico(matriz_fila_distinta) is False
